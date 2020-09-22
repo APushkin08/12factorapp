@@ -14,7 +14,10 @@ import (
 )
 
 func main() {
-	logrus.Info("hello world")
+	log := logrus.New()
+	log.SetOutput(os.Stdout)
+
+	log.Info("Starting the app...")
 
 	port := os.Getenv("PORT")
 	if len(port) == 0 {
@@ -38,7 +41,14 @@ func main() {
 
 	<-interrupt
 
+	log.Info("Stopping app...")
+
 	timeout, cancelFunc := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancelFunc()
-	serv.Shutdown(timeout)
+	err := serv.Shutdown(timeout)
+	if err != nil {
+		log.Error("Errot when shutdown app: %v", err)
+	}
+
+	log.Info("The app stoped")
 }
