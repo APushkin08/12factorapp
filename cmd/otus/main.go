@@ -47,7 +47,7 @@ func main() {
 	defer cancelFunc()
 	err := serv.Shutdown(timeout)
 	if err != nil {
-		log.Error("Errot when shutdown app: %v", err)
+		log.Error("Error when shutdown app: %v", err)
 	}
 
 	log.Info("The app stoped")
